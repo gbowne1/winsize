@@ -1,0 +1,24 @@
+# Ninja build file for Console Utility
+
+cxx = g++
+cxxflags = -std=c++17 -Wall -Wextra -O2 -m64
+includes = -Iinclude
+builddir = build
+
+rule compile
+  command = $cxx $cxxflags $includes -c $in -o $out
+  description = Compiling $in
+
+rule link
+  command = $cxx $cxxflags $in -o $out
+  description = Linking $out
+
+# Build object files
+build $builddir/Console.o: compile src/Console.cpp
+build $builddir/main.o: compile src/main.cpp
+
+# Link the final executable
+build $builddir/console_app: link $builddir/Console.o $builddir/main.o
+
+# Default target
+default $builddir/console_app
